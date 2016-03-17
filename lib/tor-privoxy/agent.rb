@@ -17,9 +17,13 @@ module TorPrivoxy
     def method_missing method, *args, &block
       begin
         @mechanize.send method, *args, &block
-      rescue Mechanize::ResponseCodeError # 403 etc
-        switch_circuit
-        retry
+      rescue Mechanize::ResponseCodeError => e # 403 etc
+        if e.response_code == "404"
+          return e
+        else
+          switch_circuit
+          retry
+        end
       end
     end
 
