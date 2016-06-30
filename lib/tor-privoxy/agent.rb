@@ -38,7 +38,7 @@ module TorPrivoxy
       @mechanize = Mechanize.new
       @mechanize.set_proxy(@proxy.host, @proxy.port)
 
-      if callback
+      if @callback
         @callback.call self
       end
     end
