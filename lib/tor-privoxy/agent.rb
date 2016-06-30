@@ -21,7 +21,15 @@ module TorPrivoxy
         if e.response_code == "404"
           return e
         else
+          @count ||= 0
+          if @count == 3
+            return e
+          else
+            @count += 1
+          end
+          puts "MECH ERR.....: code:#{e.response_code} error:#{e}\n\n... switching circuit, @count:#{@count}"
           switch_circuit
+          puts "retrying...."
           retry
         end
       end
